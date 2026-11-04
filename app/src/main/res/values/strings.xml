@@ -202,6 +202,8 @@
     <string name="installer_am_unavailable">Install App Manager or change the installer.</string>
     <string name="installer_root_unavailable">No root access. Grant it or change the installer.</string>
     <string name="installer_shizuku_unavailable">Shizuku is not installed or set up properly.</string>
+    <string name="installer_dhizuku_unavailable">Dhizuku is not installed or set up properly.</string>
+    <string name="installer_dhizuku_outdated">Dhizuku is too old. Update Dhizuku to version 2.9 or newer.</string>
     <string name="installer_fallback_session">Chosen installer is unavailable, using the default installer instead.</string>
     <!-- Installer description, then the app providing it, e.g. "… · Served by Shevery" -->
     <string name="installer_provider">%1$s · Served by %2$s</string>
@@ -255,6 +257,7 @@
     <string name="pref_install_delete_title">"Delete APK post-install"</string>
     <string name="pref_install_mode_am">AM installer</string>
     <string name="pref_install_mode_shizuku">Shizuku installer</string>
+    <string name="pref_install_mode_dhizuku">Dhizuku installer</string>
     <string name="pref_install_mode_native">"Native installer (Deprecated)"</string>
     <string name="pref_install_mode_root">"Root installer"</string>
     <string name="pref_install_mode_services">"Aurora Services (Deprecated)"</string>
@@ -532,6 +535,8 @@
     <string name="am_installer_desc">Requires App Manager, need adb/root mode to install when miui optimization is on</string>
     <string name="shizuku_installer_subtitle">Using system APIs directly with adb/root privileges</string>
     <string name="shizuku_installer_desc">Requires Shizuku or Sui, needs to be setup and permission granted</string>
+    <string name="dhizuku_installer_subtitle">Silent installs through the Dhizuku device owner</string>
+    <string name="dhizuku_installer_desc">Requires Dhizuku set up as device owner and permission granted; installs are recorded as installed by Dhizuku</string>
 
     <!-- ManualDownloadSheet -->
     <string name="manual_download_hint">Enter version code you wish to download</string>

@@ -16,8 +16,11 @@ import com.aurora.extensions.TAG
 import com.aurora.extensions.runOnUiThread
 import com.aurora.store.AuroraApp
 import com.aurora.store.data.event.InstallerEvent
+import com.aurora.store.data.installer.AppInstaller
 import com.aurora.store.data.installer.AppInstaller.Companion.ACTION_INSTALL_STATUS
+import com.aurora.store.data.installer.AppInstaller.Companion.EXTRA_DHIZUKU_INSTALL
 import com.aurora.store.data.installer.AppInstaller.Companion.EXTRA_DISPLAY_NAME
+import com.aurora.store.data.installer.AppInstaller.Companion.EXTRA_MAIN_PACKAGE_NAME
 import com.aurora.store.data.installer.AppInstaller.Companion.EXTRA_PACKAGE_NAME
 import com.aurora.store.data.installer.AppInstaller.Companion.EXTRA_VERSION_CODE
 import com.aurora.store.data.installer.base.InstallerBase
@@ -62,6 +65,14 @@ abstract class BaseInstallerStatusReceiver : BroadcastReceiver() {
                 // No post-install steps for shared libraries
                 if (PackageUtil.isSharedLibrary(context, packageName)) return
 
+                // Dhizuku installs are attributed to Dhizuku itself, so record
+                // Aurora's here: this broadcast is delivered by the system even
+                // when the process did not survive the install, unlike the
+                // installer's in-memory session callback.
+                if (intent.getBooleanExtra(EXTRA_DHIZUKU_INSTALL, false)) {
+                    AppInstaller.recordDhizukuAttributedInstall(context, packageName)
+                }
+
                 AuroraApp.enqueuedInstalls.remove(packageName)
                 InstallerBase.notifyInstallation(context, displayName, packageName)
 
@@ -84,6 +95,17 @@ abstract class BaseInstallerStatusReceiver : BroadcastReceiver() {
                 }
 
                 postStatus(status, packageName, extra, context)
+
+                // A shared library installed on behalf of another package
+                // reports under its own name, which no download record
+                // matches; the owning package would stay at "installing"
+                // forever, so mirror the result onto it, keeping the
+                // system's error details.
+                val mainPackageName = intent.getStringExtra(EXTRA_MAIN_PACKAGE_NAME)
+                if (mainPackageName != null && mainPackageName != packageName) {
+                    AuroraApp.enqueuedInstalls.remove(mainPackageName)
+                    postStatus(status, mainPackageName, extra, context)
+                }
             }
         }
     }

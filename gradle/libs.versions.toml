@@ -37,6 +37,8 @@ processPhoenix = "3.0.0"
 protobufJavalite = "4.35.1"
 room = "2.8.4"
 serialization = "1.11.0"
+dhizuku = "2.7.0"
+hiddenapibypass = "6.2"
 shizuku = "13.1.5"
 truth = "1.4.5"
 work = "2.11.2"
@@ -92,6 +94,8 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 process-phoenix = { module = "com.jakewharton:process-phoenix", version.ref = "processPhoenix" }
 rikka-shizuku-api = { module = "dev.rikka.shizuku:api", version.ref = "shizuku" }
 rikka-shizuku-provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizuku" }
+iamr0s-dhizuku-api = { module = "io.github.iamr0s:Dhizuku-API", version.ref = "dhizuku" }
+lsposed-hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
 squareup-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 

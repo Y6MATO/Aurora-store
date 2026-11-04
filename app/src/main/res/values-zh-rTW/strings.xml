@@ -228,6 +228,7 @@
     <string name="search_hint">搜尋應用程式與遊戲</string>
     <string name="pref_install_mode_am">AM 安裝程式</string>
     <string name="pref_install_mode_shizuku">Shizuku 安裝程式</string>
+    <string name="pref_install_mode_dhizuku">Dhizuku 安裝程式</string>
     <string name="session_good">一切良好。</string>
     <string name="title_advanced">進階</string>
     <string name="toast_import_success">已匯入裝置設定</string>
@@ -262,6 +263,8 @@
     <string name="expand">展開</string>
     <string name="notification_channel_updates">更新通知</string>
     <string name="installer_shizuku_unavailable">Shizuku 未安裝或設定不正確。</string>
+    <string name="installer_dhizuku_unavailable">Dhizuku 未安裝或設定不正確。</string>
+    <string name="installer_dhizuku_outdated">Dhizuku 版本過低，請更新到 2.9 或更高版本。</string>
     <string name="session_enjoy">登入並享用。</string>
     <string name="update_available">有更新可用</string>
     <string name="pref_vending_version_title">Google Play 版本</string>
@@ -321,6 +324,7 @@
     <string name="details_data_safety_subtitle">開發者聲明的資料隱私與安全措施</string>
     <string name="about_wiki_summary">尋找常見問題 (F.A.Q.)、故障排除步驟等的解答</string>
     <string name="shizuku_installer_subtitle">直接使用具有 adb/Root 權限的系統 API 進行操作</string>
+    <string name="dhizuku_installer_subtitle">透過 Dhizuku 裝置所有者靜默安裝</string>
     <string name="manual_download_hint">輸入您想下載的版本代號</string>
     <string name="faqs_subtitle">有疑問嗎？在這裡找到答案</string>
     <string name="action_favourite">最愛</string>
@@ -348,6 +352,7 @@
     <string name="pref_network_proxy_url_message">輸入有效的代理伺服器 URL 以透過代理伺服器傳輸所有資料。</string>
     <string name="export_app_summary_fail">應用程式套件匯出失敗</string>
     <string name="shizuku_installer_desc">需要 Shizuku 或 Sui，並且需要設定及授予權限</string>
+    <string name="dhizuku_installer_desc">需要 Dhizuku 設定為裝置所有者並授予權限；安裝來源將記錄為 Dhizuku</string>
     <string name="services_installer_subtitle">背景安裝程式</string>
     <string name="privacy_policy_subtitle">了解 Aurora Store 是如何使用您的資料</string>
     <string name="about_aurora_store_summary">Aurora Store 讓您能夠從官方的 Google Play 商店搜尋並下載應用程式。您可以查看應用程式的說明、螢幕截圖、更新資訊及其他使用者的評論，並直接從 Google Play 將 APK 檔案下載至您的裝置。若要使用 Aurora Store，請在首次開啟並設定 Aurora Store 時，使用 Google Play 帳戶登入。\n\n與傳統的應用程式商店不同，Aurora Store 並不擁有、授權或分發任何應用程式。Aurora Store 中的所有應用程式、應用程式說明、螢幕截圖及其他內容，皆直接從 Google Play 存取、下載及／或顯示。Aurora Store 的運作方式完全如同一個入口或瀏覽器，讓您能夠登入您的 Google Play 帳戶，並從 Google Play 尋找應用程式。\n\n請注意，Aurora Store 未獲得 Google、Google Play、透過 Aurora Store 下載的任何應用程式或任何應用程式開發者的任何批准、贊助或授權；Aurora Store 與上述各方亦無任何隸屬關係、合作關係或關聯。</string>

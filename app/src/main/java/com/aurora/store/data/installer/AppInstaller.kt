@@ -29,6 +29,7 @@ import com.aurora.store.data.model.InstallerInfo
 import com.aurora.store.util.PackageUtil
 import com.aurora.store.util.PackageUtil.hasMicroGCompanion
 import com.aurora.store.util.Preferences
+import com.aurora.store.util.Preferences.PREFERENCE_DHIZUKU_ATTRIBUTED_INSTALLS
 import com.aurora.store.util.Preferences.PREFERENCE_INSTALLER_ID
 import com.aurora.store.util.Preferences.PREFERENCE_PLAY_ATTRIBUTED_INSTALLS
 import com.topjohnwu.superuser.Shell
@@ -48,7 +49,8 @@ class AppInstaller @Inject constructor(
     private val serviceInstaller: ServiceInstaller,
     private val amInstaller: AMInstaller,
     private val shizukuInstaller: ShizukuInstaller,
-    private val microGInstaller: MicroGInstaller
+    private val microGInstaller: MicroGInstaller,
+    private val dhizukuInstaller: DhizukuInstaller
 ) {
 
     companion object {
@@ -61,6 +63,10 @@ class AppInstaller @Inject constructor(
             "com.aurora.store.data.installer.AppInstaller.EXTRA_VERSION_CODE"
         const val EXTRA_DISPLAY_NAME =
             "com.aurora.store.data.installer.AppInstaller.EXTRA_DISPLAY_NAME"
+        const val EXTRA_DHIZUKU_INSTALL =
+            "com.aurora.store.data.installer.AppInstaller.EXTRA_DHIZUKU_INSTALL"
+        const val EXTRA_MAIN_PACKAGE_NAME =
+            "com.aurora.store.data.installer.AppInstaller.EXTRA_MAIN_PACKAGE_NAME"
 
         fun getCurrentInstaller(context: Context): Installer =
             Installer.entries[Preferences.getInteger(context, PREFERENCE_INSTALLER_ID)]
@@ -73,6 +79,7 @@ class AppInstaller @Inject constructor(
             Installer.AM -> AMInstaller.installerInfo
             Installer.SHIZUKU -> ShizukuInstaller.installerInfo
             Installer.MICROG -> MicroGInstaller.installerInfo
+            Installer.DHIZUKU -> DhizukuInstaller.installerInfo
         }
 
         /**
@@ -97,8 +104,36 @@ class AppInstaller @Inject constructor(
             } else {
                 null
             },
-            if (hasMicroGCompanion(context)) MicroGInstaller.installerInfo else null
+            if (hasMicroGCompanion(context)) MicroGInstaller.installerInfo else null,
+            getDhizukuInstallerInfo(context)
         )
+
+        /**
+         * The Dhizuku entry is listed whenever a provider app is around: a live
+         * Dhizuku (which also covers compatible providers serving under another
+         * package) or at least the official app installed. An installed but
+         * inactive, outdated or not-yet-authorized Dhizuku therefore keeps its
+         * entry, mirroring how the Shizuku entry appears once Shizuku is
+         * installed; usability is only decided when the entry is selected.
+         */
+        private fun getDhizukuInstallerInfo(context: Context): InstallerInfo? {
+            if (!isOAndAbove) return null
+
+            val providerPackage = when {
+                hasDhizuku(context) -> DhizukuInstaller.ownerPackageName()
+
+                PackageUtil.isInstalled(context, DhizukuInstaller.DHIZUKU_PACKAGE_NAME) ->
+                    DhizukuInstaller.DHIZUKU_PACKAGE_NAME
+
+                else -> return null
+            }
+
+            return DhizukuInstaller.installerInfo.copy(
+                provider = runCatching {
+                    PackageUtil.getPackageLabel(context, providerPackage)
+                }.getOrNull()
+            )
+        }
 
         /**
          * Checks if the given package can be silently installed
@@ -153,6 +188,13 @@ class AppInstaller @Inject constructor(
                     isOAndAbove && hasShizukuOrSui(context) && hasShizukuPerm(context)
 
                 Installer.MICROG -> false
+
+                Installer.DHIZUKU -> {
+                    val available = hasDhizuku(context)
+                    val outdated = DhizukuInstaller.isOutdated(context)
+                    val permission = DhizukuInstaller.hasPermission(context)
+                    isOAndAbove && available && !outdated && permission
+                }
             }
         }
 
@@ -184,6 +226,28 @@ class AppInstaller @Inject constructor(
         fun isPlayAttributedInstall(context: Context, packageName: String): Boolean {
             val key = playAttributedKey(context, packageName) ?: return false
             return key in Preferences.getStringSet(context, PREFERENCE_PLAY_ATTRIBUTED_INSTALLS)
+        }
+
+        /**
+         * Records a Dhizuku install, which the system attributes to Dhizuku no matter
+         * which client asked for it, as Aurora's. Keyed by first install time so a
+         * later reinstall by anything else no longer matches.
+         */
+        @Synchronized
+        fun recordDhizukuAttributedInstall(context: Context, packageName: String) {
+            val key = playAttributedKey(context, packageName) ?: return
+            val others = Preferences.getStringSet(context, PREFERENCE_DHIZUKU_ATTRIBUTED_INSTALLS)
+                .filterNot { it.substringBeforeLast('/') == packageName }
+            Preferences.putStringSet(
+                context,
+                PREFERENCE_DHIZUKU_ATTRIBUTED_INSTALLS,
+                (others + key).toSet()
+            )
+        }
+
+        fun isDhizukuAttributedInstall(context: Context, packageName: String): Boolean {
+            val key = playAttributedKey(context, packageName) ?: return false
+            return key in Preferences.getStringSet(context, PREFERENCE_DHIZUKU_ATTRIBUTED_INSTALLS)
         }
 
         private fun playAttributedKey(context: Context, packageName: String): String? = try {
@@ -261,6 +325,8 @@ class AppInstaller @Inject constructor(
             false
         }
 
+        fun hasDhizuku(context: Context): Boolean = DhizukuInstaller.isAvailable(context)
+
         fun uninstall(context: Context, packageName: String) {
             val intent = Intent().apply {
                 data = Uri.fromParts("package", packageName, null)
@@ -315,6 +381,13 @@ class AppInstaller @Inject constructor(
                 microGInstaller
             } else {
                 defaultInstaller
+            }
+
+            Installer.DHIZUKU -> {
+                val available = hasDhizuku(context)
+                val outdated = DhizukuInstaller.isOutdated(context)
+                val permission = DhizukuInstaller.hasPermission(context)
+                if (available && !outdated && permission) dhizukuInstaller else defaultInstaller
             }
         }
 
