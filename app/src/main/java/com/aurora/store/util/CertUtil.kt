@@ -18,6 +18,7 @@ import com.aurora.extensions.generateX509Certificate
 import com.aurora.extensions.getUpdateOwnerPackageNameCompat
 import com.aurora.extensions.isPAndAbove
 import com.aurora.store.data.installer.AppInstaller
+import com.aurora.store.data.installer.DhizukuInstaller
 import com.aurora.store.data.model.Algorithm
 import com.aurora.store.util.PackageUtil.getPackageInfo
 import java.security.MessageDigest
@@ -51,6 +52,11 @@ object CertUtil {
         // Root and Shizuku installs claim Play as installer, so Play alone proves nothing
         if (owner == PACKAGE_NAME_PLAY_STORE) {
             return AppInstaller.isPlayAttributedInstall(context, packageName)
+        }
+        // Every Dhizuku client's installs are attributed to Dhizuku itself,
+        // so Dhizuku alone proves nothing either
+        if (owner == DhizukuInstaller.DHIZUKU_PACKAGE_NAME) {
+            return AppInstaller.isDhizukuAttributedInstall(context, packageName)
         }
         return AppInstaller.getAvailableInstallersInfo(context, rootAccess = false)
             .any { owner in it.installerPackageNames }

@@ -263,7 +263,10 @@
     <string name="notification_updates_available_desc_2"><xliff:g id="app_one_name">%1$s</xliff:g> 和 <xliff:g id="app_two_name">%2$s</xliff:g></string>
     <string name="notification_updates_available_desc_3"><xliff:g id="app_one_name">%1$s</xliff:g>、 <xliff:g id="app_two_name">%2$s</xliff:g> 和 <xliff:g id="app_three_name">%3$s</xliff:g></string>
     <string name="pref_install_mode_shizuku">Shizuku 安装器</string>
+    <string name="pref_install_mode_dhizuku">Dhizuku 安装器</string>
     <string name="installer_shizuku_unavailable">未安装或正确设置 Shizuku。</string>
+    <string name="installer_dhizuku_unavailable">未安装或正确设置 Dhizuku。</string>
+    <string name="installer_dhizuku_outdated">Dhizuku 版本过低，请更新到 2.9 或更高版本。</string>
     <string name="title_search_suggestion">搜索建议</string>
     <string name="title_search_results">搜索结果</string>
     <string name="failed_to_fetch_report">获取隐私报告失败</string>
@@ -315,7 +318,9 @@
     <string name="am_installer_subtitle">全功能开源包管理器</string>
     <string name="am_installer_desc">需要 App Manager，开启 miui 优化时需要 adb/root 模式方能安装</string>
     <string name="shizuku_installer_subtitle">以 adb/roo t特权直接使用系统 API</string>
+    <string name="dhizuku_installer_subtitle">通过 Dhizuku 设备所有者静默安装</string>
     <string name="shizuku_installer_desc">需要 Shizuku 或 Sui，需要进行设置并授予权限</string>
+    <string name="dhizuku_installer_desc">需要 Dhizuku 设置为设备所有者并授予权限；安装来源将记录为 Dhizuku</string>
     <string name="manual_download_hint">输入你希望下载的版本码</string>
     <string name="faqs_subtitle">有问题？找出答案</string>
     <string name="source_code_subtitle">弄清内里玄机</string>

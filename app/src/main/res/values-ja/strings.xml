@@ -253,7 +253,10 @@
     <string name="permissions_denied">必要な権限が拒否されました。続けるためには許可してください</string>
     <string name="notification_updates_available"><xliff:g id="apps_count">%1$d</xliff:g>個の更新があります</string>
     <string name="pref_install_mode_shizuku">Shizuku インストーラー</string>
+    <string name="pref_install_mode_dhizuku">Dhizuku インストーラー</string>
     <string name="installer_shizuku_unavailable">Shizuku がインストールされていないか、正常に動作していません。</string>
+    <string name="installer_dhizuku_unavailable">Dhizuku がインストールされていないか、正常に動作していません。</string>
+    <string name="installer_dhizuku_outdated">Dhizuku のバージョンが古すぎます。2.9 以降に更新してください。</string>
     <string name="downloading_dep">追加ファイルをダウンロードしています：<xliff:g id="app">%1$s</xliff:g></string>
     <string name="notification_updates_available_desc_3"><xliff:g id="app_one_name">%1$s</xliff:g> と <xliff:g id="app_two_name">%2$s</xliff:g> 及び <xliff:g id="app_three_name">%3$s</xliff:g></string>
     <string name="notification_updates_available_desc_4"><xliff:g id="app_one_name">%1$s</xliff:g> と <xliff:g id="app_two_name">%2$s</xliff:g> ､ <xliff:g id="app_three_name">%3$s</xliff:g> 及び <xliff:g id="apps_count">%4$d</xliff:g> 個のアプリ</string>
@@ -323,7 +326,9 @@
     <string name="native_installer_subtitle">すべてのデバイスで利用可能なインテントベースのインストーラー</string>
     <string name="am_installer_desc">アプリマネージャーが必要。MIUI 最適化がオンの場合、インストールには ADB/root モードが必要</string>
     <string name="shizuku_installer_subtitle">ADB/root 権限でシステム API を直接使用</string>
+    <string name="dhizuku_installer_subtitle">Dhizuku のデバイス所有者によるサイレントインストール</string>
     <string name="shizuku_installer_desc">Shizuku または Sui が必要で、セットアップと権限付与が必要です</string>
+    <string name="dhizuku_installer_desc">Dhizuku がデバイス所有者として設定され、権限が付与されている必要があります。インストール元は Dhizuku として記録されます</string>
     <string name="download_clear_finished">完了したら削除</string>
     <string name="action_home_screen">ホーム画面に追加</string>
     <string name="title_more">更に</string>

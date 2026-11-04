@@ -17,6 +17,7 @@ import com.aurora.extensions.isMiuiOptimizationDisabled
 import com.aurora.extensions.observeAsStateFlow
 import com.aurora.store.R
 import com.aurora.store.data.installer.AppInstaller
+import com.aurora.store.data.installer.DhizukuInstaller
 import com.aurora.store.data.model.Installer
 import com.aurora.store.data.model.InstallerInfo
 import com.aurora.store.util.Preferences
@@ -161,6 +162,28 @@ class InstallerViewModel @Inject constructor(
                     if (!AppInstaller.hasAppManager(context)) {
                         Log.e(TAG, "Trying to set AM installer without companion app")
                         _error.emit(context.getString(R.string.installer_am_unavailable))
+                        return@launch
+                    }
+                }
+
+                Installer.DHIZUKU -> {
+                    if (!AppInstaller.hasDhizuku(context)) {
+                        Log.e(TAG, "Trying to set dhizuku installer without appropriate setup")
+                        _error.emit(context.getString(R.string.installer_dhizuku_unavailable))
+                        return@launch
+                    }
+
+                    if (DhizukuInstaller.isOutdated(context)) {
+                        Log.e(TAG, "Trying to set dhizuku installer with an outdated Dhizuku")
+                        _error.emit(context.getString(R.string.installer_dhizuku_outdated))
+                        return@launch
+                    }
+
+                    if (!DhizukuInstaller.hasPermission(context) &&
+                        !DhizukuInstaller.requestPermission()
+                    ) {
+                        Log.e(TAG, "Dhizuku permission was not granted")
+                        _error.emit(context.getString(R.string.permissions_denied))
                         return@launch
                     }
                 }
